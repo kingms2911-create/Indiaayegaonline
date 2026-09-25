@@ -1,0 +1,470 @@
+
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Creator Power Suite - Vibe Edition</title>
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #3b82f6, #1d4ed8);
+            --primary-color: #3b82f6;
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border-color: #334155;
+            --input-bg: #0f172a;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            padding: 30px 15px;
+            display: block;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 820px;
+            background: var(--card-bg);
+            padding: 35px;
+            border-radius: 16px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+            margin: 0 auto 60px auto;
+            border: 1px solid var(--border-color);
+        }
+
+        h2 {
+            margin-bottom: 25px;
+            font-size: 26px;
+            color: var(--text-main);
+            text-align: center;
+            font-weight: 700;
+        }
+
+        .tabs {
+            display: flex;
+            flex-wrap: nowrap;
+            gap: 6px;
+            margin-bottom: 30px;
+            background: #0f172a;
+            padding: 6px;
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+            overflow-x: auto;
+        }
+
+        .tab-btn {
+            flex: 1;
+            min-width: 110px;
+            padding: 10px 8px;
+            background: transparent;
+            border: none;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            white-space: nowrap;
+        }
+
+        .tab-btn.active {
+            background: var(--primary-gradient);
+            color: white;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--text-main);
+            font-size: 14px;
+        }
+
+        input[type="text"], textarea, select, input[type="file"] {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            font-size: 14px;
+            outline: none;
+            background: var(--input-bg);
+            color: var(--text-main);
+        }
+
+        input[type="text"]:focus, textarea:focus, select:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+        }
+
+        textarea {
+            resize: vertical;
+            height: 90px;
+        }
+
+        .action-btn {
+            width: 100%;
+            padding: 15px;
+            background: var(--primary-gradient);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 5px;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.25);
+            transition: opacity 0.2s;
+        }
+
+        .action-btn:hover {
+            opacity: 0.9;
+        }
+
+        .output-box {
+            margin-top: 20px;
+            padding: 20px;
+            background: #0f172a;
+            border-radius: 10px;
+            font-size: 14px;
+            white-space: pre-wrap;
+            border: 1px solid var(--border-color);
+            display: none;
+            max-height: 450px;
+            overflow-y: auto;
+            line-height: 1.7;
+            color: #e2e8f0;
+        }
+
+        .credit-info {
+            font-size: 12px;
+            color: var(--text-muted);
+            text-align: right;
+            margin-top: 6px;
+            font-weight: 500;
+        }
+
+        .font-result-item {
+            padding: 12px 15px;
+            background: #0f172a;
+            border: 1px solid var(--border-color);
+            margin-bottom: 10px;
+            border-radius: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 15px;
+        }
+
+        .copy-btn {
+            padding: 6px 12px;
+            background: var(--border-color);
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-main);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>🚀 Creator Power Suite</h2>
+        
+        <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab('scriptTab', this)">✍️ Script</button>
+            <button class="tab-btn" onclick="switchTab('vibeTab', this)">🎬 Vibe Script</button>
+            <button class="tab-btn" onclick="switchTab('hashtagTab', this)">#️⃣ Hashtags</button>
+            <button class="tab-btn" onclick="switchTab('fontTab', this)">✨ Bio Fonts</button>
+        </div>
+
+        <!-- TAB 1: Script Generator -->
+        <div id="scriptTab" class="tab-content active">
+            <div class="form-group">
+                <label for="videoTopic">Video Topic / Title</label>
+                <input type="text" id="videoTopic" placeholder="Jaise: 10 business ideas under 1000 rupees">
+            </div>
+
+            <div class="form-group">
+                <label for="scriptLanguage">Script Language</label>
+                <select id="scriptLanguage" onchange="handleLanguageChange()">
+                    <option value="Hinglish" selected>Hinglish (Hindi written in English - jaise 'Aap kaise ho')</option>
+                    <option value="Hindi">Hindi (हिंदी)</option>
+                    <option value="Bengali">Bengali (বাংলা)</option>
+                    <option value="Tamil">Tamil (தமிழ்)</option>
+                    <option value="Telugu">Telugu (తెలుగు)</option>
+                    <option value="Marathi">Marathi (मराठी)</option>
+                    <option value="Gujarati">Gujarati (ગુજરાતી)</option>
+                    <option value="Punjabi">Punjabi (ਪੰਜਾਬੀ)</option>
+                    <option value="Malayalam">Malayalam (മലയാളം)</option>
+                    <option value="Kannada">Kannada (ಕನ್ನಡ)</option>
+                    <option value="Odia">Odia (ଓଡ଼ିଆ)</option>
+                    <option value="Assamese">Assamese (অসমীয়া)</option>
+                    <option value="English">English</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="scriptFormat">Content Format</label>
+                <select id="scriptFormat" onchange="toggleDurationOptions()">
+                    <option value="reel">Instagram Reel / Short Script (0-60s with High Retention Hook)</option>
+                    <option value="youtube">YouTube Long-Form Video Script</option>
+                </select>
+            </div>
+
+            <div class="form-group" id="durationGroup" style="display: none;">
+                <label for="ytDuration">YouTube Video Duration</label>
+                <select id="ytDuration">
+                    <option value="4-5">4 to 5 Minutes (Detailed Full Script)</option>
+                    <option value="8-10">8 to 10 Minutes (In-Depth Masterclass Script)</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="keyPoints">Key Points / Details (Optional)</label>
+                <textarea id="keyPoints" placeholder="Main points jo video mein cover karne hain..."></textarea>
+            </div>
+
+            <button id="generateBtn" class="action-btn" onclick="callAIAPI(false)">Advanced AI se High-Hook Script Banayein</button>
+            <div class="credit-info" id="creditText">⚡ Credit cost: 1 Credit</div>
+            <div id="scriptOutput" class="output-box"></div>
+        </div>
+
+        <!-- TAB 2: Vibe Script -->
+        <div id="vibeTab" class="tab-content">
+            <div class="form-group">
+                <label for="vibeVideoFile">Reference Video Upload Karein (Chhoti MP4 file recommended < 3MB)</label>
+                <input type="file" id="vibeVideoFile" accept="video/*">
+            </div>
+            <div class="form-group">
+                <label for="vibeTopicInput">New Video Topic / Niche (Jiss par script banani hai)</label>
+                <input type="text" id="vibeTopicInput" placeholder="Jaise: Digital Marketing tips ya Fitness routine">
+            </div>
+            <div class="form-group">
+                <label for="vibeNotes">Additional Instructions (Optional)</label>
+                <textarea id="vibeNotes" placeholder="Jaise: Is video jaisa hi fast-paced tone aur exact structure rakho..."></textarea>
+            </div>
+            <button class="action-btn" onclick="analyzeVibeScript()">AI se Real Vibe Script Banayein</button>
+            <div id="vibeOutput" class="output-box"></div>
+        </div>
+
+        <!-- TAB 3: Instagram Hashtags -->
+        <div id="hashtagTab" class="tab-content">
+            <div class="form-group">
+                <label for="hashTopic">Video Topic / Niche</label>
+                <input type="text" id="hashTopic" placeholder="Jaise: Fitness, Skincare, Tech">
+            </div>
+            <button class="action-btn" onclick="generateHashtags()">Trending Hashtags Dhoondein</button>
+            <div id="hashOutput" class="output-box"></div>
+        </div>
+
+        <!-- TAB 4: Bio Font Generator -->
+        <div id="fontTab" class="tab-content">
+            <div class="form-group">
+                <label for="bioInput">Apna Text / Bio Yahan Likhein</label>
+                <input type="text" id="bioInput" placeholder="Jaise: Creator Profile" oninput="generateFonts()">
+            </div>
+            <label>10 Stylish Font Styles:</label>
+            <div id="fontResults" style="margin-top: 10px;"></div>
+        </div>
+    </div>
+
+    <script>
+        window.onload = function() { generateFonts(); };
+
+        function switchTab(tabId, btn) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+            btn.classList.add('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function toggleDurationOptions() {
+            const format = document.getElementById('scriptFormat').value;
+            document.getElementById('durationGroup').style.display = (format === 'youtube') ? 'block' : 'none';
+        }
+
+        function handleLanguageChange() {
+            const outputBox = document.getElementById('scriptOutput');
+            if (outputBox.style.display === 'block' && outputBox.textContent.trim() !== '') {
+                callAIAPI(false);
+            }
+        }
+
+        async function callAIAPI(isSecondAttempt) {
+            const topic = document.getElementById('videoTopic').value.trim();
+            const language = document.getElementById('scriptLanguage').value;
+            const format = document.getElementById('scriptFormat').value;
+            const duration = document.getElementById('ytDuration').value;
+            const keyPoints = document.getElementById('keyPoints').value.trim();
+            const outputBox = document.getElementById('scriptOutput');
+            const generateBtn = document.getElementById('generateBtn');
+            const creditText = document.getElementById('creditText');
+
+            if (!topic) {
+                alert('Kripya video topic ya title daalein!');
+                return;
+            }
+
+            outputBox.style.display = 'block';
+            outputBox.textContent = `🔥 Advanced AI ${language} bhasha mein high-hook script generate kar raha hai...`;
+
+            let langInstruction = language === 'Hinglish' 
+                ? "IMPORTANT: Poori script strictly ROMAN HINGLISH mein honi chahiye (jaise normal log baat karte hain, jaise 'Dosto aaj hum baat karenge...'). Ek bhi line pure English mein nahi honi chahiye, sirf Hinglish words use karein."
+                : `IMPORTANT: Poori script ${language} bhasha mein honi chahiye.`;
+
+            let prompt = format === 'reel' 
+                ? `Aap ek elite viral content creator hain. Topic "${topic}" par ek dum dhamakedaar Instagram Reel script likhein. ${langInstruction}
+                   SHURUAT MEIN EK EXTREMELY POWERFUL HOOK HONA CHAHIYE jo pehle 3 seconds mein viewer ka dhyan kheech le. 
+                   Iske baad fast-paced body points aur ek solid CTA ho. Extra details: ${keyPoints}`
+                : `Aap ek professional YouTube scriptwriter hain. Topic "${topic}" par ${duration} minutes ki detailed YouTube video script likhein. ${langInstruction}
+                   Shuruat mein ek strong engaging hook ho, phir step-by-step modules aur strong outro ho. Extra details: ${keyPoints}`;
+
+            if (isSecondAttempt) {
+                prompt += " (Yeh is topic par doosra alag aur unique alternative version hai)";
+            }
+
+            try {
+                const response = await fetch('/api/generate', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ prompt: prompt })
+                });
+
+                const data = await response.json();
+                
+                if (response.ok && data.script) {
+                    outputBox.textContent = data.script;
+                    generateBtn.textContent = "🔄 Doosra Script Banayein";
+                    generateBtn.setAttribute('onclick', 'callAIAPI(true)');
+                    creditText.textContent = "⚡ Credit cost for next script: 0.5 Credit";
+                    outputBox.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                } else {
+                    outputBox.textContent = "❌ API Error: " + (data.error || "Kuch gadbad ho gayi.");
+                }
+            } catch (error) {
+                outputBox.textContent = "❌ Network Error: Server se connect nahi ho paya.";
+            }
+        }
+
+        async function analyzeVibeScript() {
+            const fileInput = document.getElementById('vibeVideoFile');
+            const vibeTopic = document.getElementById('vibeTopicInput').value.trim();
+            const notes = document.getElementById('vibeNotes').value.trim();
+            const outputBox = document.getElementById('vibeOutput');
+
+            if (fileInput.files.length === 0) {
+                alert('Kripya pehle reference video upload karein!');
+                return;
+            }
+
+            const file = fileInput.files[0];
+            // Check file size (< 4MB to prevent Vercel payload crash)
+            if (file.size > 4 * 1024 * 1024) {
+                alert('⚠️ Video file bahut badi hai! Kripya 3MB se chhoti ya short clip upload karein taaki Vercel limit cross na ho.');
+                return;
+            }
+
+            if (!vibeTopic) {
+                alert('Kripya naya video topic ya niche daalein!');
+                return;
+            }
+
+            outputBox.style.display = 'block';
+            outputBox.textContent = '🎬 Video file read ho rahi hai aur AI video ke format, vibe aur pattern ko analyze kar raha hai...';
+
+            try {
+                const reader = new FileReader();
+
+                reader.onload = async function(event) {
+                    const base64Data = event.target.result.split(',')[1];
+                    const mimeType = file.type || 'video/mp4';
+
+                    const prompt = `Aap ek expert AI video analyst aur scriptwriter hain. Is uploaded reference video ka format, pacing, structure aur tone analyze karein. 
+                    Uske baad, naye topic "${vibeTopic}" par bilkul usi reference video ke style, hook format aur flow ke jaisa ek high-retention script STRICTLY HINGLISH (Roman Hindi) mein taiyar karein. 
+                    Extra user instructions: ${notes}`;
+
+                    try {
+                        const response = await fetch('/api/generate', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ prompt: prompt, mediaData: base64Data, mimeType: mimeType })
+                        });
+
+                        const data = await response.json();
+
+                        if (response.ok && data.script) {
+                            outputBox.textContent = data.script;
+                            outputBox.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        } else {
+                            outputBox.textContent = "❌ Vibe API Error: " + (data.error || "Analysis fail ho gayi.");
+                        }
+                    } catch (err) {
+                        outputBox.textContent = "❌ Network Error: Server payload limit exceed ho gayi ya connection toot gaya. Chhoti video file try karein.";
+                    }
+                };
+
+                reader.readAsDataURL(file);
+
+            } catch (error) {
+                outputBox.textContent = "❌ File processing error: " + error.message;
+            }
+        }
+
+        function generateFonts() {
+            const text = document.getElementById('bioInput').value || "Creator Profile";
+            const resultsDiv = document.getElementById('fontResults');
+            const styles = [
+                t => t.split('').map(c => ({'a':'🇦','b':'🇧','c':'🇨','d':'🇩','e':'🇪','f':'🇫','g':'🇬','h':'🇭','i':'🇮','j':'🇯','k':'🇰','l':'🇱','m':'🇲','n':'🇳','o':'🇴','p':'🇵','q':'🇶','r':'🇷','s':'🇸','t':'🇹','u':'🇺','v':'🇻','w':'🇼','x':'🇽','y':'🇾','z':'🇿'}[c.toLowerCase()] || c)).join(''),
+                t => t.split('').map(c => ({'a':'𝒶','b':'𝒷','c':'𝒸','d':'𝒹','e':'ℯ','f':'𝒻','g':'ℊ','h':'𝒽','i':'𝒾','j':'𝒿','k':'𝓀','l':'𝓁','m':'𝓂','n':'𝓃','o':'ℴ','p':'𝓅','q':'𝓆','r':'𝓇','s':'𝓈','t':'𝓉','u':'𝓊','v':'𝓿','w':'𝓌','x':'𝓍','y':'𝓎','z':'𝓏'}[c.toLowerCase()] || c)).join(''),
+                t => t.split('').map(c => ({'a':'𝔞','b':'𝔟','c':'𝔠','d':'𝔡','e':'𝔢','f':'𝔣','g':'𝔤','h':'𝔥','i':'𝔦','j':'𝔧','k':'🇰','l':'𝔩','m':'𝔪','n':'𝔫','o':'𝔬','p':'𝔭','q':'𝔮','r':'𝔯','s':'𝔰','t':'𝔱','u':'𝔲','v':'𝔳','w':'𝔴','x':'𝔵','y':'𝔶','z':'𝔷'}[c.toLowerCase()] || c)).join(''),
+                t => t.split('').map(c => ({'a':'𝕒','b':'𝕓','c':'𝕔','d':'𝕕','e':'𝕖','f':'𝕗','g':'𝕘','h':'𝕙','i':'𝕚','j':'𝕛','k':'𝕜','l':'𝕝','m':'𝕞','n':'𝕟','o':'𝕠','p':'𝕡','q':'𝕢','r':'𝕣','s':'𝕤','t':'𝕥','u':'𝕦','v':'𝕧','w':'𝕨','x':'𝕩','y':'𝕪','z':'𝕫'}[c.toLowerCase()] || c)).join(''),
+                t => '✨ ' + t + ' ✨',
+                t => '🔥 ' + t.toUpperCase() + ' 🔥',
+                t => t.split('').reverse().join('')
+            ];
+            let html = "";
+            styles.forEach(fn => {
+                let styled = fn(text);
+                html += `<div class="font-result-item"><span>${styled}</span><button class="copy-btn" onclick="navigator.clipboard.writeText('${styled}'); alert('Copied!');">Copy</button></div>`;
+            });
+            resultsDiv.innerHTML = html;
+        }
+
+        function generateHashtags() {
+            const topic = document.getElementById('hashTopic').value;
+            const outputBox = document.getElementById('hashOutput');
+            if (!topic) { alert('Kripya topic daalein!'); return; }
+            outputBox.style.display = 'block';
+            let tags = `#${topic.replace(/\s+/g, '')} #Trending${topic.replace(/\s+/g, '')} #ViralReels #CreatorEconomy #InstagramGrowth #ExplorePage`;
+            outputBox.textContent = `📌 **Trending Hashtags:**\n\n` + tags;
+        }
+    </script>
+</body>
+</html>
