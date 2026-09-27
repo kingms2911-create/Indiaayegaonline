@@ -24,4 +24,265 @@ header p{color:var(--muted);margin:6px 0 0;font-size:.9rem}
 .tab{flex:0 0 auto;padding:10px 16px;border-radius:20px;border:1px solid var(--border);
   background:var(--panel);color:var(--muted);cursor:pointer;font-size:.85rem;white-space:nowrap;transition:.2s}
 .tab.active{background:var(--accent);color:#fff;border-color:var(--accent)}
-.card{background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:20px;margin
+.card{background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:20px;margin-bottom:16px}
+.card h2{margin:0 0 4px;font-size:1.1rem}
+.card .desc{color:var(--muted);font-size:.85rem;margin-bottom:16px}
+label{display:block;font-size:.8rem;color:var(--muted);margin:12px 0 6px}
+input[type=text],select,textarea{
+  width:100%;padding:10px 12px;border-radius:10px;border:1px solid var(--border);
+  background:var(--panel2);color:var(--text);font-size:.9rem;font-family:inherit}
+textarea{resize:vertical;min-height:70px}
+input[type=file]{width:100%;color:var(--muted);font-size:.85rem}
+.row{display:flex;gap:10px;flex-wrap:wrap}
+.row > *{flex:1;min-width:140px}
+button{margin-top:16px;width:100%;padding:12px;border:none;border-radius:10px;
+  background:linear-gradient(90deg,var(--accent),var(--accent2));color:#fff;font-weight:600;
+  font-size:.95rem;cursor:pointer}
+button:disabled{opacity:.5;cursor:not-allowed}
+.output{margin-top:16px;background:var(--panel2);border:1px solid var(--border);border-radius:10px;
+  padding:14px;white-space:pre-wrap;font-size:.88rem;line-height:1.55;display:none}
+.output.show{display:block}
+.status{font-size:.8rem;color:#ffb84d;margin-top:8px;display:none}
+.status.show{display:block}
+.copybtn{margin-top:10px;background:var(--panel);border:1px solid var(--border);color:var(--muted);
+  font-weight:500;font-size:.8rem;width:auto;padding:8px 14px}
+.section{scroll-margin-top:64px}
+.note{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:12px 16px;
+  margin-bottom:18px;font-size:.78rem;color:var(--muted)}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">
+    <svg width="34" height="34" viewBox="0 0 34 34" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="lg" x1="0" y1="0" x2="34" y2="34" gradientUnits="userSpaceOnUse">
+          <stop stop-color="#7c5cff"/><stop offset="1" stop-color="#ff5c93"/>
+        </linearGradient>
+      </defs>
+      <rect width="34" height="34" rx="9" fill="url(#lg)"/>
+      <path d="M13 9l9 8-9 8V9z" fill="#fff"/>
+    </svg>
+    <span class="wordmark">indiaayegaonline</span>
+  </div>
+  <p>YouTube · Instagram · Facebook Reels/Shorts ke liye AI Script Generator</p>
+</header>
+<div class="container">
+
+  <div class="tabs">
+    <div class="tab active" data-tab="script">✍️ Script Generator</div>
+    <div class="tab" data-tab="long">📺 Long YouTube Video</div>
+    <div class="tab" data-tab="video">🎬 Video → Script</div>
+    <div class="tab" data-tab="hooks">🔥 Hook Generator</div>
+    <div class="tab" data-tab="captions">#️⃣ Caption + Hashtags</div>
+  </div>
+
+  <div class="section active" id="sec-script">
+    <div class="card">
+      <h2>Reel/Short Script Generator</h2>
+      <div class="desc">Topic dein, platform choose karein — AI ek ready-to-shoot script bana dega.</div>
+      <label>Platform</label>
+      <select id="s-platform"><option>Instagram Reel</option><option>YouTube Shorts</option><option>Facebook Reel</option></select>
+      <label>Niche / Topic</label>
+      <input type="text" id="s-topic" placeholder="e.g. fitness tips for beginners">
+      <div class="row">
+        <div><label>Tone</label>
+          <select id="s-tone"><option>Energetic</option><option>Funny</option><option>Emotional</option><option>Educational</option><option>Luxury/Aesthetic</option></select>
+        </div>
+        <div><label>Duration</label>
+          <select id="s-dur"><option>15 sec</option><option>30 sec</option><option>60 sec</option></select>
+        </div>
+      </div>
+      <label>Language</label>
+      <select id="s-lang"><option>Hinglish</option><option>Hindi</option><option>English</option></select>
+      <button onclick="genScript()">Generate Script</button>
+      <div class="status" id="s-status"></div>
+      <div class="output" id="s-output"></div>
+      <button class="copybtn" style="display:none" id="s-copy" onclick="copyOut('s-output',this)">Copy</button>
+    </div>
+  </div>
+
+  <div class="section" id="sec-long">
+    <div class="card">
+      <h2>Long YouTube Video Script</h2>
+      <div class="desc">10-20 min ya usse lambi video ke liye full script — intro, sections aur outro ke saath.</div>
+      <label>Topic / Title idea</label>
+      <input type="text" id="l-topic" placeholder="e.g. how I grew my channel to 100k subscribers">
+      <div class="row">
+        <div><label>Video Format</label>
+          <select id="l-format"><option>Tutorial/How-to</option><option>Vlog/Storytime</option><option>Listicle (Top 5/10)</option><option>Explainer/Educational</option><option>Review</option></select>
+        </div>
+        <div><label>Target Length</label>
+          <select id="l-len"><option>5-8 min</option><option>10-15 min</option><option>15-20 min</option><option>20+ min</option></select>
+        </div>
+      </div>
+      <label>Language</label>
+      <select id="l-lang"><option>Hinglish</option><option>Hindi</option><option>English</option></select>
+      <button onclick="genLong()">Generate Full Script</button>
+      <div class="status" id="l-status"></div>
+      <div class="output" id="l-output"></div>
+      <button class="copybtn" style="display:none" id="l-copy" onclick="copyOut('l-output',this)">Copy</button>
+    </div>
+  </div>
+
+  <div class="section" id="sec-video">
+    <div class="card">
+      <h2>Video ko Analyze karke Naya Script</h2>
+      <div class="desc">Video upload karein — AI hook/pacing/structure analyze karke usi vibe mein fresh script likhega.</div>
+      <label>Video file (max ~15MB recommended)</label>
+      <input type="file" id="v-file" accept="video/*">
+      <label>Naye topic ka thoda idea (optional)</label>
+      <input type="text" id="v-topic" placeholder="e.g. same style but for skincare niche">
+      <button onclick="genFromVideo()">Analyze & Generate</button>
+      <div class="status" id="v-status"></div>
+      <div class="output" id="v-output"></div>
+      <button class="copybtn" style="display:none" id="v-copy" onclick="copyOut('v-output',this)">Copy</button>
+    </div>
+  </div>
+
+  <div class="section" id="sec-hooks">
+    <div class="card">
+      <h2>Trending Hook Generator</h2>
+      <div class="desc">Topic dein — 8 alag scroll-stopping opening lines milengi.</div>
+      <label>Topic / Niche</label>
+      <input type="text" id="h-topic" placeholder="e.g. side hustle ideas">
+      <button onclick="genHooks()">Generate Hooks</button>
+      <div class="status" id="h-status"></div>
+      <div class="output" id="h-output"></div>
+      <button class="copybtn" style="display:none" id="h-copy" onclick="copyOut('h-output',this)">Copy</button>
+    </div>
+  </div>
+
+  <div class="section" id="sec-captions">
+    <div class="card">
+      <h2>Caption & Hashtag Generator</h2>
+      <div class="desc">Video ka short summary dein — caption options + best hashtags milenge.</div>
+      <label>Video kis baare mein hai?</label>
+      <textarea id="c-topic" placeholder="e.g. 3 mistakes beginners make in gym"></textarea>
+      <button onclick="genCaptions()">Generate</button>
+      <div class="status" id="c-status"></div>
+      <div class="output" id="c-output"></div>
+      <button class="copybtn" style="display:none" id="c-copy" onclick="copyOut('c-output',this)">Copy</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+document.querySelectorAll('.tab').forEach(t=>t.addEventListener('click',()=>{
+  document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+  t.classList.add('active');
+  document.getElementById('sec-'+t.dataset.tab).scrollIntoView({behavior:'smooth'});
+}));
+// highlight the tab whose section is currently in view while scrolling
+const secIds=['script','video','hooks','captions','long'];
+window.addEventListener('scroll',()=>{
+  let current=secIds[0];
+  for(const id of secIds){
+    const el=document.getElementById('sec-'+id);
+    if(el && el.getBoundingClientRect().top<120) current=id;
+  }
+  document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active', t.dataset.tab===current));
+});
+
+async function callBackend(prompt, statusEl, extra){
+  statusEl.textContent='Generating...'; statusEl.classList.add('show');
+  try{
+    const res=await fetch('/api/generate',{
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({mode:extra?'video':'text', prompt, ...extra})
+    });
+    const data=await res.json();
+    if(data.error) throw new Error(data.error);
+    statusEl.classList.remove('show');
+    return data.text;
+  }catch(e){
+    statusEl.textContent='Error: '+e.message; statusEl.classList.add('show');
+    return null;
+  }
+}
+function showOutput(id, copyId, text){
+  const out=document.getElementById(id);
+  out.textContent=text; out.classList.add('show');
+  document.getElementById(copyId).style.display='block';
+}
+function copyOut(id, btn){
+  navigator.clipboard.writeText(document.getElementById(id).textContent);
+  const old=btn.textContent; btn.textContent='Copied!'; setTimeout(()=>btn.textContent=old,1200);
+}
+
+async function genScript(){
+  const platform=document.getElementById('s-platform').value;
+  const topic=document.getElementById('s-topic').value.trim();
+  const tone=document.getElementById('s-tone').value;
+  const dur=document.getElementById('s-dur').value;
+  const lang=document.getElementById('s-lang').value;
+  if(!topic){ alert('Topic likhein.'); return; }
+  const prompt=`You are a viral short-form video scriptwriter for ${platform}.
+Write a ${dur} script about: "${topic}". Tone: ${tone}. Language: ${lang}.
+Format: HOOK (first 2 sec) / BODY (numbered beats + on-screen action) / CTA. Punchy, ready to shoot.`;
+  const res=await callBackend(prompt, document.getElementById('s-status'));
+  if(res) showOutput('s-output','s-copy',res);
+}
+
+function fileToBase64(file){
+  return new Promise((resolve,reject)=>{
+    const r=new FileReader();
+    r.onload=()=>resolve(r.result.split(',')[1]);
+    r.onerror=reject;
+    r.readAsDataURL(file);
+  });
+}
+async function genFromVideo(){
+  const file=document.getElementById('v-file').files[0];
+  const topic=document.getElementById('v-topic').value.trim();
+  const status=document.getElementById('v-status');
+  if(!file){ alert('Pehle ek video select karein.'); return; }
+  status.textContent='Reading video...'; status.classList.add('show');
+  const base64=await fileToBase64(file);
+  const prompt=`Watch this short-form video. Analyze its hook, pacing, structure, tone and editing style (do NOT copy its exact words).
+Write a completely NEW, original script with the SAME vibe/hook style/pacing${topic?`, for this new topic: "${topic}"`:''}.
+Format: ANALYSIS (2-3 lines) / NEW SCRIPT — HOOK / NEW SCRIPT — BODY (numbered) / NEW SCRIPT — CTA.`;
+  const res=await callBackend(prompt, status, {base64, mime:file.type||'video/mp4'});
+  if(res) showOutput('v-output','v-copy',res);
+}
+
+async function genHooks(){
+  const topic=document.getElementById('h-topic').value.trim();
+  if(!topic){ alert('Topic likhein.'); return; }
+  const prompt=`Give 8 different scroll-stopping opening hook lines (first 2 sec of a reel/short) for a video about: "${topic}".
+Mix: question hook, shocking-stat hook, story hook, controversial hook, POV hook, relatable hook. Number 1-8, one line each.`;
+  const res=await callBackend(prompt, document.getElementById('h-status'));
+  if(res) showOutput('h-output','h-copy',res);
+}
+
+async function genLong(){
+  const topic=document.getElementById('l-topic').value.trim();
+  const format=document.getElementById('l-format').value;
+  const len=document.getElementById('l-len').value;
+  const lang=document.getElementById('l-lang').value;
+  if(!topic){ alert('Topic likhein.'); return; }
+  const prompt=`You are a professional long-form YouTube scriptwriter.
+Write a full ${len} "${format}" video script about: "${topic}". Language: ${lang}.
+Format the output as:
+TITLE (clickable, curiosity-driven):
+INTRO (first 15-30 sec hook + what viewer will get):
+MAIN SECTIONS (numbered, each with a short heading + detailed talking points/dialogue, paced for the target length):
+OUTRO (recap + subscribe/CTA line):
+Keep it detailed enough to read on camera, natural spoken tone, not just bullet points.`;
+  const res=await callBackend(prompt, document.getElementById('l-status'));
+  if(res) showOutput('l-output','l-copy',res);
+}
+
+async function genCaptions(){
+  const topic=document.getElementById('c-topic').value.trim();
+  if(!topic){ alert('Video ka summary likhein.'); return; }
+  const prompt=`For a short-form video about: "${topic}", write:
+1. Three caption options (short, engaging, 1 emoji each)
+2. 15 hashtags: 5 broad/high-reach, 5 niche-specific, 5 low-competition. Format clearly with headers.`;
+  const res=await callBackend(prompt, document.getElementById('c-status'));
+  if(res) showOutput('c-output','c-copy',res);
+}
+</script>
+</body>
+</html>
